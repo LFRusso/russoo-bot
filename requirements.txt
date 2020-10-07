@@ -5,3 +5,5 @@ python-telegram-bot==12.8
 pylatexenc==2.7
 sympy==1.6.2
 more-itertools==8.5.0
+moviepy==1.0.3
+opencv-python-headless==4.2.0.32

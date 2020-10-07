@@ -33,9 +33,10 @@ def stickbug(fname):
     # Output "lines" is an array containing endpoints of detected line segments
     lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]), min_line_length, max_line_gap)
 
-
     # Selecting 10 from the lines (if found)
     lines = np.array(lines)
+    if((lines == None).any()): return
+    
     if (len(lines) > 10):
         idx = np.random.choice(len(lines),10)
         stickbug_lines = lines[idx]

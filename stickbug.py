@@ -5,8 +5,11 @@ from moviepy.editor import *
 def stickbug(fname):
 
     clip = VideoFileClip(fname)
-    if( clip.duration > 3 ): clip = clip.subclip(0,3)    
-    last_frame = clip.get_frame(3)
+    if( clip.duration > 3 ): 
+        clip = clip.subclip(0,3)    
+        last_frame = clip.get_frame(3)
+    else:
+        last_frame = clip.get_frame(clip.duration)
 
     # Loads stickbug sound effects from 00:00 to 00:07
     stickbug_sound = AudioFileClip("assets/stickbugged.mp3").subclip(0,7)

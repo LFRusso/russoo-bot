@@ -4,12 +4,12 @@ from moviepy.editor import *
 
 def stickbug(fname):
 
-    clip = VideoFileClip(fname)
+    clip = VideoFileClip(fname, target_resolution=(460,720))
     if( clip.duration > 3 ): 
-        clip = clip.subclip(0,3)    
-        last_frame = clip.get_frame(3)
-    else:
-        last_frame = clip.get_frame(clip.duration)
+        clip = clip.subclip(0,3)
+    
+    last_frame = clip.get_frame(clip.duration)
+    print(last_frame.shape)
 
     # Loads stickbug sound effects from 00:00 to 00:07
     stickbug_sound = AudioFileClip("assets/stickbugged.mp3").subclip(0,7)
@@ -102,12 +102,10 @@ def stickbug(fname):
     transition = transition.set_audio(stickbug_sound)
 
     # Load Get Stickbugged video
-    stickbug_clip = VideoFileClip("assets/stickbug.mp4")
-    stickbug_music = stickbug_clip.audio
+    stickbug_clip = VideoFileClip("assets/stickbug.mp4", target_resolution=(460,720)).subclip(0,4)
 
     # concatenating clips
     final = concatenate_videoclips([clip, transition, stickbug_clip], method="compose")
-
-    #final = final.set_audio(stickbug_audio)
-    final.write_videofile(f"out-{fname}", fps=20)
+    final.set_audio(None)
+    final.write_videofile(f"out-{fname}", fps=10)
     return

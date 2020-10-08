@@ -5,8 +5,8 @@ from moviepy.editor import *
 def stickbug(fname):
 
     clip = VideoFileClip(fname, target_resolution=(460,720))
-    if( clip.duration > 3 ): 
-        clip = clip.subclip(0,3)
+    if( clip.duration > 2 ): 
+        clip = clip.subclip(0,2)
     
     last_frame = clip.get_frame(clip.duration)
     print(last_frame.shape)
@@ -106,6 +106,6 @@ def stickbug(fname):
 
     # concatenating clips
     final = concatenate_videoclips([clip, transition, stickbug_clip], method="compose")
-    final.set_audio(None)
+    final = final.set_audio(None)
     final.write_videofile(f"out-{fname}", fps=10)
     return

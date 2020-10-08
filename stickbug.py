@@ -9,10 +9,9 @@ def stickbug(fname):
         clip = clip.subclip(0,2)
     
     last_frame = clip.get_frame(clip.duration)
-    print(last_frame.shape)
 
     # Loads stickbug sound effects from 00:00 to 00:07
-    stickbug_sound = AudioFileClip("assets/stickbugged.mp3").subclip(0,7)
+    ##stickbug_sound = AudioFileClip("assets/stickbugged.mp3").subclip(0,7)
 
 
     # Finding straight lines on the video
@@ -60,7 +59,7 @@ def stickbug(fname):
         line = stickbug_lines[i]
         time = sound_times[i]
         [x1,y1,x2,y2] = line[0]
-        cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),7)
+        cv2.line(line_image,(x1,y1),(x2,y2),(255,255,220),7)
         
         img = ImageClip(np.copy(line_image)).set_start(time).set_duration(sound_times[i+1] - time)
         frames.append(img)
@@ -76,30 +75,30 @@ def stickbug(fname):
             line = stickbug_lines[j][0]
             [x1,y1,x2,y2] = line
             
-            cv2.line(moving_lines,(x1,y1),(x2,y2),(255,0,0),7)
+            cv2.line(moving_lines,(x1,y1),(x2,y2),(255,255,220),7)
             # Moving sticks to the center of the image
             if (x1 < width/2):        
-                line[0] += width/200
+                line[0] += width/100
             elif (x1 > width/2):
-                line[0] -= width/200
+                line[0] -= width/100
             if (x2 < width/2):        
-                line[2] += width/200
+                line[2] += width/100
             elif (x2 > width/2):
-                line[2] -= width/200
+                line[2] -= width/100
             if (y1 < height/2):        
-                line[1] += height/200
+                line[1] += height/100
             elif (y1 > height/2):
-                line[1] -= height/200
+                line[1] -= height/100
             if (y2 < height/2):        
-                line[3] += height/200
+                line[3] += height/100
             elif (y2 > height/2):
-                line[3] -= height/200          
+                line[3] -= height/100          
             
         img = ImageClip(np.copy(moving_lines)).set_start(time).set_duration(timesteps[i+1] - time)
         frames.append(img)
 
     transition = CompositeVideoClip(frames)
-    transition = transition.set_audio(stickbug_sound)
+    ##transition = transition.set_audio(stickbug_sound)
 
     # Load Get Stickbugged video
     stickbug_clip = VideoFileClip("assets/stickbug.mp4", target_resolution=(460,720)).subclip(0,4)
@@ -108,4 +107,9 @@ def stickbug(fname):
     final = concatenate_videoclips([clip, transition, stickbug_clip], method="compose")
     final = final.set_audio(None)
     final.write_videofile(f"out-{fname}", fps=10)
+
+    clip.close()
+    transition.close()
+    transition.close()
+    final.close()
     return

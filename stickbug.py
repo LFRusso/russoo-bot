@@ -110,6 +110,6 @@ def stickbug(fname):
 
     clip.close()
     transition.close()
-    transition.close()
+    stickbug_clip.close()
     final.close()
     return

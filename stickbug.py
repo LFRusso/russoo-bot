@@ -2,6 +2,16 @@ import cv2
 import numpy as np
 from moviepy.editor import *
 
+def close_clip(clip):
+  try:
+    clip.close()
+    if clip.audio != None:
+      clip.audio.close_proc()
+      del clip.audio
+    del clip
+  except Exception as e:
+    print("Error in close_clip() ", e)
+
 def stickbug(fname):
 
     clip = VideoFileClip(fname, target_resolution=(460,720))
@@ -108,8 +118,8 @@ def stickbug(fname):
     final = final.set_audio(None)
     final.write_videofile(f"out-{fname}", fps=10)
 
-    clip.close()
-    transition.close()
-    stickbug_clip.close()
-    final.close()
+    close_clip(clip)
+    close_clip(transition)
+    close_clip(stickbug_clip)
+    close_clip(final)
     return

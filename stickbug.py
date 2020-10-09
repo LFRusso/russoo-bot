@@ -118,6 +118,8 @@ def stickbug(fname):
     final = final.set_audio(None)
     final.write_videofile(f"out-{fname}", fps=10)
 
+    for frame in frames:
+        close_clip(frame)
     close_clip(clip)
     close_clip(transition)
     close_clip(stickbug_clip)
